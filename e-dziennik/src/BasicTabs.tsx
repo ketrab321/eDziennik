@@ -20,6 +20,7 @@ import ListAltIcon from "@mui/icons-material/ListAlt";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import Looks5Icon from "@mui/icons-material/Looks5";
 import ChatIcon from "@mui/icons-material/Chat";
+import useWindowDimensions from "./useWindowDimensions";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -65,6 +66,13 @@ export default function BasicTabs() {
     setValue(5);
   };
 
+  const { height, width } = useWindowDimensions(); // TODO: Extract some variable to redux, some boolean that indicates if we are on mobile
+
+  let mobile = false;
+  if (width < 850) {
+    mobile = true;
+  }
+
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -76,25 +84,25 @@ export default function BasicTabs() {
           <Tab
             icon={<HomeIcon />}
             iconPosition="start"
-            label="Strona główna"
+            label={mobile ? "" : "Strona główna"}
             {...a11yProps(0)}
           />
           <Tab
             icon={<ListAltIcon />}
             iconPosition="start"
-            label="Plan lekcji"
+            label={mobile ? "" : "Plan lekcji"}
             {...a11yProps(1)}
           />
           <Tab
             icon={<PlaylistAddCheckIcon />}
             iconPosition="start"
-            label="Obecność"
+            label={mobile ? "" : "Obecność"}
             {...a11yProps(2)}
           />
           <Tab
             icon={<Looks5Icon />}
             iconPosition="start"
-            label="Oceny"
+            label={mobile ? "" : "Oceny"}
             {...a11yProps(3)}
           />
           <Tab
@@ -104,7 +112,7 @@ export default function BasicTabs() {
               </Badge>
             }
             iconPosition="start"
-            label="Wiadomości"
+            label={mobile ? "" : "Wiadomości"}
             {...a11yProps(4)}
           />
           <Tooltip
