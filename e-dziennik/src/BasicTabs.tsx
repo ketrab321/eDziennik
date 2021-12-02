@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
+import Badge from "@mui/material/Badge";
 import React from "react";
 import {
   AccountSettings,
@@ -14,6 +15,11 @@ import {
   LessonPlan,
   MainPage,
 } from "./pages";
+import HomeIcon from "@mui/icons-material/Home";
+import ListAltIcon from "@mui/icons-material/ListAlt";
+import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
+import Looks5Icon from "@mui/icons-material/Looks5";
+import ChatIcon from "@mui/icons-material/Chat";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -67,11 +73,40 @@ export default function BasicTabs() {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Strona główna" {...a11yProps(0)} />
-          <Tab label="Plan lekcji" {...a11yProps(1)} />
-          <Tab label="Obecność" {...a11yProps(2)} />
-          <Tab label="Oceny" {...a11yProps(3)} />
-          <Tab label="Wiadomości" {...a11yProps(4)} />
+          <Tab
+            icon={<HomeIcon />}
+            iconPosition="start"
+            label="Strona główna"
+            {...a11yProps(0)}
+          />
+          <Tab
+            icon={<ListAltIcon />}
+            iconPosition="start"
+            label="Plan lekcji"
+            {...a11yProps(1)}
+          />
+          <Tab
+            icon={<PlaylistAddCheckIcon />}
+            iconPosition="start"
+            label="Obecność"
+            {...a11yProps(2)}
+          />
+          <Tab
+            icon={<Looks5Icon />}
+            iconPosition="start"
+            label="Oceny"
+            {...a11yProps(3)}
+          />
+          <Tab
+            icon={
+              <Badge badgeContent={4} color="secondary">
+                <ChatIcon />
+              </Badge>
+            }
+            iconPosition="start"
+            label="Wiadomości"
+            {...a11yProps(4)}
+          />
           <Tooltip
             onClick={selectAccountSettings}
             role="tab"
