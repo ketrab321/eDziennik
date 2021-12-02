@@ -125,7 +125,7 @@ export default function BasicTabs() {
             }}
             {...a11yProps(5)}
           >
-            <IconButton size="small" sx={{ ml: 2 }}>
+            <IconButton disableRipple={true} size="small" sx={{ ml: 2 }}>
               <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
             </IconButton>
           </Tooltip>
