@@ -55,7 +55,7 @@ function a11yProps(index: number) {
   };
 }
 
-export default function BasicTabs() {
+export default function BasicTabs(props: { firebaseApp: any }) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -144,7 +144,7 @@ export default function BasicTabs() {
         <Grades />
       </TabPanel>
       <TabPanel value={value} index={4}>
-        <Communication />
+        <Communication firebaseApp={props.firebaseApp} />
       </TabPanel>
       <TabPanel value={value} index={5}>
         <AccountSettings />
