@@ -1,0 +1,72 @@
+.dateCard {
+  min-width: 30vw;
+  display: inline-block;
+  max-height: 30vh !important;
+}
+
+.classCard {
+  min-width: 60vw;
+  display: inline-block;
+  margin-left: 1%;
+  height: 35vh;
+}
+
+.cardTable {
+  height: 36.5vh;
+}
+.cell {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  border-left: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.dayList {
+  overflow: auto;
+  height: 30vh;
+}
+.classItem {
+  height: fit-content !important;
+  padding: 0px !important;
+  padding-left: 15% !important;
+}
+
+.classItemText {
+  font-size: 10px !important;
+}
+.uiDataGrid-footerContainer {
+  display: none;
+}
+
+.css-1b34haf-MuiDataGrid-footerContainer {
+  display: none !important;
+}
+.css-11bfvty-MuiToolbar-root-MuiTablePagination-toolbar {
+  display: none !important;
+}
+
+.legendCard {
+  width: 30vw;
+  margin-left: 4.5%;
+}
+
+.legendList {
+  text-align: left;
+}
+
+.li {
+  width: 100%;
+}
+
+.buttonsDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  margin-top: 1.5%;
+}
+
+.buttonSaveCancel {
+  margin-right: 10px !important;
+}
+
+.Freq {
+  height: 30vh;
+}
