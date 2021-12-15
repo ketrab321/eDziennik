@@ -1,0 +1,44 @@
+.cell {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  border-left: 1px solid rgba(0, 0, 0, 0.4);
+  overflow-wrap: break-word !important;
+  text-align: center !important;
+  height: fit-content;
+}
+.uiDataGrid-footerContainer {
+  display: none;
+}
+
+.css-1b34haf-MuiDataGrid-footerContainer {
+  display: none !important;
+}
+.css-11bfvty-MuiToolbar-root-MuiTablePagination-toolbar {
+  display: none !important;
+}
+
+.lessonGrid {
+  width: 100%;
+  height: auto;
+}
+.Freq {
+  height: 100%;
+}
+
+.css-o86l0z-MuiDataGrid-root .MuiDataGrid-row.Mui-selected {
+  background-color: white !important;
+}
+.css-o86l0z-MuiDataGrid-root .MuiDataGrid-row:hover {
+  background-color: white !important;
+}
+
+.css-o86l0z-MuiDataGrid-root .MuiDataGrid-columnHeader:focus,
+.css-o86l0z-MuiDataGrid-root .MuiDataGrid-cell:focus {
+  outline: none !important;
+}
+
+.css-okt5j6-MuiDataGrid-columnHeaders {
+  z-index: 10;
+}
+.css-o86l0z-MuiDataGrid-root .MuiDataGrid-columnHeaderTitleContainer {
+  justify-content: center !important;
+}

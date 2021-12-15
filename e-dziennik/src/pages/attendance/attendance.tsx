@@ -122,7 +122,7 @@ var studentsFreq
 function createTableTeacher()
 {
  return <div className="Freq">
-   <DataGrid rows={teachersFreq}columns={columns} rowsPerPageOptions={[]} getCellClassName={(params) => {
+   <DataGrid rows={teachersFreq} columns={columns} rowsPerPageOptions={[]} getCellClassName={(params) => {
      return "cell"
    }}
      disableColumnMenu={true}
