@@ -1,9 +1,9 @@
 import firebase from "firebase/app";
-import "firebase/firestore";
+import "firebase/database";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
@@ -17,7 +17,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
 import Fab from "@material-ui/core/Fab";
 import SendIcon from "@material-ui/icons/Send";
-import { Button } from "@mui/material";
+import { Button, getAccordionSummaryUtilityClass } from "@mui/material";
 
 const useStyles = makeStyles({
   table: {
@@ -30,7 +30,7 @@ const useStyles = makeStyles({
   },
   chatSection: {
     width: "100%",
-    height: "100",
+    height: "100%",
   },
   headBG: {
     backgroundColor: "#e0e0e0",
@@ -45,107 +45,198 @@ const useStyles = makeStyles({
 });
 
 const CommunicationPanel = (props: { firebaseApp: any }) => {
-  const firestore = props.firebaseApp.firestore();
-  const messagesRef = firestore.collection("chat1");
-  const query = messagesRef.orderBy("date").limitToLast(25);
+  const chatsRef = props.firebaseApp.database().ref("chats");
+  const forumsRef = props.firebaseApp.database().ref("forums");
+  const usersRef = props.firebaseApp.database().ref("users");
 
-  const [messages] = useCollectionData(query);
+  const [section, setSection] = useState("chats");
+  const [activeConvoId, setActiveConvoId] = useState<string>("");
+  const [activeForumId, setActiveForumId] = useState<string>("");
+
+  const [chats, setChats] = useState<any[]>([]);
+  const [forums, setForums] = useState<any[]>([]);
+  const [users, setUsers] = useState<any>({});
+
+  const userId = 123456;
+  useEffect(() => {
+    chatsRef.on("value", (snapshot: any) => {
+      let tempChats: any[] = [];
+      snapshot.forEach((childSnapshot: any) => {
+        var childKey = childSnapshot.key;
+        var childData = childSnapshot.val();
+
+        tempChats.push({
+          id: childKey,
+          data: childData,
+        });
+        if (activeConvoId === "") {
+          setActiveConvoId(childKey);
+        }
+      });
+      setChats(tempChats);
+    });
+
+    forumsRef.on("value", (snapshot: any) => {
+      let tempForums: any[] = [];
+      snapshot.forEach((childSnapshot: any) => {
+        var childKey = childSnapshot.key;
+        var childData = childSnapshot.val();
+
+        tempForums.push({
+          id: childKey,
+          data: childData,
+        });
+        if (activeForumId === "") {
+          setActiveForumId(childKey);
+        }
+      });
+      setForums(tempForums);
+    });
+
+    usersRef.once("value", (snapshot: any) => {
+      let tempUsers: any = {};
+      snapshot.forEach((childSnapshot: any) => {
+        var childKey = childSnapshot.key;
+        var childData = childSnapshot.val();
+
+        tempUsers[childKey] = childData;
+      });
+      setUsers(tempUsers);
+    });
+  }, []);
+
+  function updateSection(newSection: string) {
+    setSection(newSection);
+
+    console.log(chats);
+    console.log(forums);
+    console.log(users);
+  }
+
+  function getConvoName(convo: any) {
+    if (section === "chats") {
+      console.log(convo);
+      const convoUsers = convo.data.users.filter((n: any) => n);
+      const convoUserId = convoUsers.find((item: number) => item !== userId);
+
+      console.log();
+      if (users[convoUserId]) {
+        return `${users[convoUserId].name} ${users[convoUserId].surname}`;
+      } else {
+        return `${convoUserId}`;
+      }
+    } else {
+      return convo.data.title;
+    }
+  }
+
+  function setActiveId(id: string) {
+    console.log("Set active id", id);
+    if (section === "chats") {
+      setActiveConvoId(id);
+    } else {
+      setActiveForumId(id);
+    }
+  }
+
+  function getArray() {
+    if (section === "chats") {
+      return chats;
+    } else {
+      return forums;
+    }
+  }
+
+  function getConvoData() {
+    if (section === "chats") {
+      console.log(activeConvoId);
+      return chats.find((el) => (el.id = activeConvoId));
+    } else {
+      return forums.find((el) => (el.id = activeForumId));
+    }
+  }
+
+  function getConvo() {
+    const data = getConvoData();
+    if (data) {
+      return data.data.messages
+        .filter((n: any) => n)
+        .map((item: any) => {
+          const messageUser = users[item.author];
+          return (
+            <ListItem key={`${item.date}`}>
+              <List>
+                {messageUser ? (
+                  <ListItem key={`${item.author}${item.date}`}>
+                    <ListItemIcon>
+                      <Avatar>{messageUser.name.charAt(0)}</Avatar>
+                    </ListItemIcon>
+                    <ListItemText primary={messageUser.name}></ListItemText>
+                  </ListItem>
+                ) : null}
+
+                <ListItem>
+                  <ListItemText primary={item.text}></ListItemText>
+                </ListItem>
+                <ListItem>
+                  <ListItemText
+                    secondary={new Date(item.date).toLocaleDateString()}
+                  ></ListItemText>
+                </ListItem>
+              </List>
+            </ListItem>
+          );
+        });
+    }
+    return null;
+  }
 
   const classes = useStyles();
 
   return (
     <Box component={Paper}>
       <Grid container className={classes.buttons}>
-        <Button variant="contained">Wiadomości</Button>
-        <Button variant="contained">Forum</Button>
+        <Button
+          variant="contained"
+          onClick={() => {
+            updateSection("chats");
+          }}
+        >
+          Wiadomości
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => {
+            updateSection("forums");
+          }}
+        >
+          Forum
+        </Button>
       </Grid>
       <Grid container className={classes.chatSection}>
         <Grid item xs={3} className={classes.borderRight500}>
           <List>
-            <ListItem button key="RemySharp">
-              <ListItemIcon>
-                <Avatar
-                  alt="Remy Sharp"
-                  src="https://material-ui.com/static/images/avatar/1.jpg"
-                />
-              </ListItemIcon>
-              <ListItemText primary="John Wick"></ListItemText>
-            </ListItem>
-          </List>
-          <Divider />
-          <Grid item xs={12} style={{ padding: "10px" }}>
-            <TextField
-              id="outlined-basic-email"
-              label="Search"
-              variant="outlined"
-              fullWidth
-            />
-          </Grid>
-          <Divider />
-          <List>
-            <ListItem button key="RemySharp">
-              <ListItemIcon>
-                <Avatar
-                  alt="Remy Sharp"
-                  src="https://material-ui.com/static/images/avatar/1.jpg"
-                />
-              </ListItemIcon>
-              <ListItemText primary="Remy Sharp">Remy Sharp</ListItemText>
-              <ListItemText secondary="online"></ListItemText>
-            </ListItem>
-            <ListItem button key="Alice">
-              <ListItemIcon>
-                <Avatar
-                  alt="Alice"
-                  src="https://material-ui.com/static/images/avatar/3.jpg"
-                />
-              </ListItemIcon>
-              <ListItemText primary="Alice">Alice</ListItemText>
-            </ListItem>
-            <ListItem button key="CindyBaker">
-              <ListItemIcon>
-                <Avatar
-                  alt="Cindy Baker"
-                  src="https://material-ui.com/static/images/avatar/2.jpg"
-                />
-              </ListItemIcon>
-              <ListItemText primary="Cindy Baker">Cindy Baker</ListItemText>
-            </ListItem>
+            {getArray().map((item: any) => {
+              const convoName: string = getConvoName(item);
+              return (
+                <ListItem
+                  button
+                  key={item.id}
+                  onClick={() => {
+                    setActiveId(item.id);
+                  }}
+                >
+                  <ListItemIcon>
+                    <Avatar>{convoName.charAt(0)}</Avatar>
+                  </ListItemIcon>
+                  <ListItemText primary={convoName}>{convoName}</ListItemText>
+                </ListItem>
+              );
+            })}
           </List>
         </Grid>
         <Grid item xs={9}>
-          <List className={classes.messageArea}>
-            <ListItem key="1">
-              <Grid container>
-                <Grid item xs={12}>
-                  <ListItemText primary="Hey man, What's up ?"></ListItemText>
-                </Grid>
-                <Grid item xs={12}>
-                  <ListItemText secondary="09:30"></ListItemText>
-                </Grid>
-              </Grid>
-            </ListItem>
-            <ListItem key="2">
-              <Grid container>
-                <Grid item xs={12}>
-                  <ListItemText primary="Hey, Iam Good! What about you ?"></ListItemText>
-                </Grid>
-                <Grid item xs={12}>
-                  <ListItemText secondary="09:31"></ListItemText>
-                </Grid>
-              </Grid>
-            </ListItem>
-            <ListItem key="3">
-              <Grid container>
-                <Grid item xs={12}>
-                  <ListItemText primary="Cool. i am good, let's catch up!"></ListItemText>
-                </Grid>
-                <Grid item xs={12}>
-                  <ListItemText secondary="10:30"></ListItemText>
-                </Grid>
-              </Grid>
-            </ListItem>
-          </List>
+          <List className={classes.messageArea}>{getConvo()}</List>
           <Divider />
           <Grid container style={{ padding: "20px" }}>
             <Grid item xs={11}>

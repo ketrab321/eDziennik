@@ -32,6 +32,7 @@ const firebaseApp = firebase.apps.length
 
 const auth = firebase.auth();
 const firestore = firebase.firestore();
+var database = firebase.database();
 
 function App() {
   const [tab, setTab] = useState(1);
