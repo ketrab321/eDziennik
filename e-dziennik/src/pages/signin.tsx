@@ -60,7 +60,10 @@ function SignIn(props: any) {
         var childKey = childSnapshot.key;
         var childData = childSnapshot.val();
 
-        tempUsers[childKey] = childData;
+        tempUsers[childKey] = {
+          id: parseInt(childKey),
+          ...childData,
+        };
       });
       setUsers(tempUsers);
     });

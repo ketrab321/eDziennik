@@ -21,12 +21,20 @@ import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import Looks5Icon from "@mui/icons-material/Looks5";
 import ChatIcon from "@mui/icons-material/Chat";
 import useWindowDimensions from "./useWindowDimensions";
+import { makeStyles } from "@material-ui/core/styles";
 
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
   value: number;
 }
+
+const useStyles = makeStyles({
+  tab: {
+    color: "rgba(0, 0, 0, 0.6)",
+    padding: "12px 16px",
+  },
+});
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -73,6 +81,8 @@ export default function BasicTabs(props: { firebaseApp: any }) {
     mobile = true;
   }
 
+  let classes = useStyles();
+
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -82,30 +92,35 @@ export default function BasicTabs(props: { firebaseApp: any }) {
           aria-label="basic tabs example"
         >
           <Tab
+            className={classes.tab}
             icon={<HomeIcon />}
             iconPosition="start"
             label={mobile ? "" : "Strona główna"}
             {...a11yProps(0)}
           />
           <Tab
+            className={classes.tab}
             icon={<ListAltIcon />}
             iconPosition="start"
             label={mobile ? "" : "Plan lekcji"}
             {...a11yProps(1)}
           />
           <Tab
+            className={classes.tab}
             icon={<PlaylistAddCheckIcon />}
             iconPosition="start"
             label={mobile ? "" : "Obecność"}
             {...a11yProps(2)}
           />
           <Tab
+            className={classes.tab}
             icon={<Looks5Icon />}
             iconPosition="start"
             label={mobile ? "" : "Oceny"}
             {...a11yProps(3)}
           />
           <Tab
+            className={classes.tab}
             icon={
               <Badge badgeContent={4} color="secondary">
                 <ChatIcon />
