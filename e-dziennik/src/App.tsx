@@ -7,6 +7,8 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import "firebase/analytics";
+import { SignIn } from "./pages";
+import { connect } from "react-redux";
 
 const theme = createTheme({
   palette: {
@@ -34,7 +36,8 @@ const auth = firebase.auth();
 const firestore = firebase.firestore();
 var database = firebase.database();
 
-function App() {
+function App(props: any) {
+  console.log("props", props);
   const [tab, setTab] = useState(1);
   const handleChange = (tab: number) => {
     setTab(tab);
@@ -42,10 +45,20 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        <BasicTabs firebaseApp={firebaseApp} />
+        {props.user ? (
+          <BasicTabs firebaseApp={firebaseApp} />
+        ) : (
+          <SignIn firebaseApp={firebaseApp} />
+        )}
       </div>
     </ThemeProvider>
   );
 }
 
-export default App;
+const mapStateToProps = (state: any) => {
+  return {
+    user: state.user,
+  };
+};
+
+export default connect(mapStateToProps)(App);
