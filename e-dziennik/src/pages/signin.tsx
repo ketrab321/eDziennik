@@ -118,7 +118,7 @@ function SignIn(props: any) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Logowanie
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           {showWarningMessage ? (
@@ -148,7 +148,7 @@ function SignIn(props: any) {
             required
             fullWidth
             name="password"
-            label="Password"
+            label="Hasło"
             type="password"
             id="password"
             autoComplete="current-password"
@@ -159,7 +159,7 @@ function SignIn(props: any) {
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
+            label="Zapamiętaj mnie"
           />
           <Button
             type="submit"
@@ -168,7 +168,7 @@ function SignIn(props: any) {
             color="primary"
             className={classes.submit}
           >
-            Sign In
+            Zaloguj
           </Button>
         </form>
       </div>

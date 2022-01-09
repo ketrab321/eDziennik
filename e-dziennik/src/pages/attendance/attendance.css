@@ -8,11 +8,11 @@
   min-width: 60vw;
   display: inline-block;
   margin-left: 1%;
-  height: 35vh;
+  max-height: 36.5vh !important;
 }
 
 .cardTable {
-  height: 36.5vh;
+  height: 36.5vh !important;
 }
 .cell {
   border-bottom: 1px solid rgba(0, 0, 0, 0.4);
@@ -68,5 +68,5 @@
 }
 
 .Freq {
-  height: 30vh;
+  height: 30vh !important;
 }

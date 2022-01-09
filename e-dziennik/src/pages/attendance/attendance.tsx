@@ -128,6 +128,7 @@ function createTableTeacher()
      disableColumnMenu={true}
      disableDensitySelector={false} />
    
+   
 </div>
 }
 
@@ -228,7 +229,7 @@ function createTableTeacher()
         </div>
         {lineLoading ? <LinearProgress sx={{ marginTop: '5px' }} /> : <></>}
       </Card>
-     
+      
     </div>
     
 
