@@ -32,16 +32,7 @@ const firebaseApp = firebase.apps.length
   ? firebase.app()
   : firebase.initializeApp(firebaseConfig);
 
-const auth = firebase.auth();
-const firestore = firebase.firestore();
-var database = firebase.database();
-
 function App(props: any) {
-  console.log("props", props);
-  const [tab, setTab] = useState(1);
-  const handleChange = (tab: number) => {
-    setTab(tab);
-  };
   return (
     <ThemeProvider theme={theme}>
       <div className="App">

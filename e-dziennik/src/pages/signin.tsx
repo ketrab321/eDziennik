@@ -57,6 +57,7 @@ function SignIn(props: any) {
     usersRef.once("value", (snapshot: any) => {
       let tempUsers: any = {};
       snapshot.forEach((childSnapshot: any) => {
+        console.log(childKey);
         var childKey = childSnapshot.key;
         var childData = childSnapshot.val();
 
