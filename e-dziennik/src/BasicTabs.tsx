@@ -122,7 +122,7 @@ export default function BasicTabs(props: { firebaseApp: any }) {
           <Tab
             className={classes.tab}
             icon={
-              <Badge badgeContent={4} color="secondary">
+              <Badge badgeContent={0} color="secondary">
                 <ChatIcon />
               </Badge>
             }
